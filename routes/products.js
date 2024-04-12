@@ -31,14 +31,17 @@ router.get("/admin/products", async (req, res) => {
 });
 
 // Getting One
-router.get("/:id", getProduct, (req, res) => {
-  res.json(res.product);
-});
+// router.get("/:id", getProduct, (req, res) => {
+//   res.json(res.product);
+// });
 
 // GET query for Nav Menu and Submenu
 router.get("/nav/:menu/:sublabel", async (req, res) => {
   const menu = req.params.menu.toLowerCase();
   const sublabel = req.params.sublabel.toLowerCase() || undefined;
+
+  console.log(menu);
+  console.log(sublabel);
 
   let gender;
   if (menu === "men") {
@@ -48,18 +51,24 @@ router.get("/nav/:menu/:sublabel", async (req, res) => {
   } else {
     gender = menu;
   }
-
   let query;
-  if (sublabel == "undefined") {
+  if (menu === "men" || menu === "women") {
+    // If menu is either men or women, set gender
+    const gender = menu === "men" ? "male" : "female";
     query = {
-      $or: [{ gender }, { category: menu }],
+      gender,
       status: true,
     };
   } else {
+    // If menu is not men or women, set category
     query = {
-      $and: [{ gender }, { category: sublabel }],
+      $and: [{ category: menu }],
       status: true,
     };
+    // If sublabel is defined, add it to the query
+    if (sublabel !== "undefined") {
+      query.$and.push({ sublabel });
+    }
   }
 
   try {
@@ -71,6 +80,7 @@ router.get("/nav/:menu/:sublabel", async (req, res) => {
 
     res.json(searchData);
   } catch (err) {
+    console.log(err);
     res.status(500).json({ message: err.message });
   }
 });
