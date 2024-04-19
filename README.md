@@ -34,6 +34,7 @@ Built with the MERN stack (MongoDB, Express, React and NodeJS).
     <li><a href="https://tailwindui.com/">Tailwind</a></li>
     <li><a href="https://redux-toolkit.js.org/">Redux Toolkit</a></li>
     <li><a href="https://redux-toolkit.js.org/rtk-query/overview">RTK Query</a></li>
+    <li><a href="https://cloudinary.com/">Cloudinary</a></li>
   </ul>
 </details>
 
